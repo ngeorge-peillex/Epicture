@@ -31,11 +31,35 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_right"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/oauth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Login with imgur"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/btn_rounded"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <TextView
+        android:id="@+id/or"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:text="or"
+        app:layout_constraintTop_toBottomOf="@id/oauth"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right" />
+    
     <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:hint="Adresse email"
         android:background="@color/colorTransparency"
         android:textColorHint="@color/colorWhite"
@@ -43,7 +67,7 @@
         android:padding="16dp"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/or" />
 
     <EditText
         android:id="@+id/password"
@@ -62,8 +86,8 @@
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@color/colorTransparency"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/btn_rounded"
         android:textColor="@color/colorWhite"
         android:text="Login"
         app:layout_constraintTop_toBottomOf="@id/password"
