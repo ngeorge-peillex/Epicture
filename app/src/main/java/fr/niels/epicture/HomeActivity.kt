@@ -3,22 +3,16 @@ package fr.niels.epicture
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity(0) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_home)
 
-        oauth.setOnClickListener() {
-
-            val intent = Intent(this, HomeActivity::class.java)
-
-            startActivity(intent)
-
-        }
+        setupBottomNavigation()
 
     }
 }
