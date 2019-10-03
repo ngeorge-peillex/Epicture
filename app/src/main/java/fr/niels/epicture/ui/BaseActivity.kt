@@ -1,8 +1,9 @@
-package fr.niels.epicture
+package fr.niels.epicture.ui
 
 import android.content.Intent
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import fr.niels.epicture.R
 import kotlinx.android.synthetic.main.bottom_navigation_view.*
 
 abstract class BaseActivity(val navNumber: Int) : AppCompatActivity() {
@@ -14,7 +15,7 @@ abstract class BaseActivity(val navNumber: Int) : AppCompatActivity() {
                 when(it.itemId) {
 
                     R.id.nav_item_home -> HomeActivity::class.java
-                    R.id.nav_item_upload-> UploadActivity::class.java
+                    R.id.nav_item_upload -> UploadActivity::class.java
                     R.id.nav_item_profile -> ProfileActivity::class.java
                     else -> {
                         null

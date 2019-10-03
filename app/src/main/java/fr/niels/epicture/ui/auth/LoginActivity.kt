@@ -1,20 +1,20 @@
-package fr.niels.epicture
+package fr.niels.epicture.ui.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_main.*
+import fr.niels.epicture.R
+import kotlinx.android.synthetic.main.activity_login.*
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         oauth.setOnClickListener() {
 
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, AuthorizationActivity::class.java)
 
             startActivity(intent)
 

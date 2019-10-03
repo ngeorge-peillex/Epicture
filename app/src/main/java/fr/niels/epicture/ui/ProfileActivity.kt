@@ -1,7 +1,7 @@
-package fr.niels.epicture
+package fr.niels.epicture.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import fr.niels.epicture.R
 
 class ProfileActivity : BaseActivity(2) {
 
