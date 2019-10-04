@@ -15,7 +15,7 @@ import java.util.regex.Pattern
 
 class  AuthorizationActivity: AppCompatActivity() {
 
-    private val TAG = "AuthorizationActivity"
+    private val tag = "AuthorizationActivity"
 
     private var webView: WebView? = null
 
@@ -36,13 +36,15 @@ class  AuthorizationActivity: AppCompatActivity() {
 
     fun parseRedirectUrl(url: String?) {
         if (url == null) {
-            Log.v(TAG, "Invalid redirect URL")
+            Log.e(tag, "Invalid redirect URL")
             return
         }
 
         // Initialize AuthPayload Singleton with redirection url query params.
         AuthPayload.token = getFragmentParameterFromRegex(url, "access_token=([^&]*)")
         AuthPayload.expiresIn = getFragmentParameterFromRegex(url, "expires_in=([^&]*)").toLong()
+        AuthPayload.id = getFragmentParameterFromRegex(url, "id=([^&]*)")
+        AuthPayload.username= getFragmentParameterFromRegex(url, "username=([^&]*)")
 
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)

@@ -10,14 +10,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_login)
 
-        oauth.setOnClickListener() {
-
+        oauth.setOnClickListener {
             val intent = Intent(this, AuthorizationActivity::class.java)
-
             startActivity(intent)
-
         }
 
     }
