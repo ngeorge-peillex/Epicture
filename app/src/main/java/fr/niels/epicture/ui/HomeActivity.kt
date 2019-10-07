@@ -22,10 +22,8 @@ class HomeActivity : BaseActivity(0) {
 
             myLayout.addView(newView)
 
-            newView.layoutParams.height = 300
-            newView.layoutParams.width = 300
-            newView.x = 5F
-            newView.y = 350F
+            newView.layoutParams.height = 1080
+            newView.layoutParams.width = 1080
             newView.setImageURI(item.link)
 
         }
