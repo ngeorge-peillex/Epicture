@@ -17,11 +17,19 @@ class UserViewModel(private val user: User) : Observer, BaseObservable() {
             return user.username
         }
 
+    val bio: String
+        @Bindable get() {
+            return user.bio
+        }
+
     /// Notify the UI when change event emitting from Model is received.
     override fun update(p0: Observable?, p1: Any?) {
         if (p1 is String) {
             if (p1 == "username") {
                 notifyPropertyChanged(BR.username)
+            }
+            if (p1 == "bio") {
+                notifyPropertyChanged(BR.bio)
             }
         }
     }

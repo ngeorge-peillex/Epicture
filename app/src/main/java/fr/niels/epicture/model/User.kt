@@ -14,10 +14,16 @@ class User: Observable() {
             setChangedAndNotify("username")
         }
 
+    var bio: String = ""
+        set(value) {
+            field = value
+            setChangedAndNotify("bio")
+        }
+
     fun merge(other: User?) {
         if (other == null)
             return
-        this.apply { username = other.username; }
+        this.apply { username = other.username; bio = other.bio ?: ""; }
     }
 
     private fun setChangedAndNotify(field: Any)

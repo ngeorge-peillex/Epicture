@@ -1,4 +1,4 @@
-package fr.niels.epicture.ui.auth
+package fr.niels.epicture.ui.activity.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import fr.niels.epicture.R
 import fr.niels.epicture.model.AuthPayload
-import fr.niels.epicture.ui.HomeActivity
+import fr.niels.epicture.ui.activity.HomeActivity
 import fr.niels.epicture.utils.CLIENT_ID
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -21,6 +21,7 @@ class  AuthorizationActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_authorization)
 
         webView = findViewById<WebView>(R.id.webView)

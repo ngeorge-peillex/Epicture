@@ -18,7 +18,8 @@ class ProfileActivity : BaseActivity(2) {
         userProvider.get()
 
         val userViewModel = UserViewModel(userProvider.user)
-        val binding = DataBindingUtil.setContentView<ViewDataBinding>(this, R.layout.activity_profile)
+        val binding =
+            DataBindingUtil.setContentView<ViewDataBinding>(this, R.layout.activity_profile)
         binding.setVariable(BR.user, userViewModel)
 
         setupBottomNavigation()

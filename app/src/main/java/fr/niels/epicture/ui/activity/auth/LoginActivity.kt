@@ -1,4 +1,4 @@
-package fr.niels.epicture.ui.auth
+package fr.niels.epicture.ui.activity.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

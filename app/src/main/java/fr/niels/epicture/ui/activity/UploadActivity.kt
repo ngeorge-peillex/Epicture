@@ -1,4 +1,4 @@
-package fr.niels.epicture.ui
+package fr.niels.epicture.ui.activity
 
 import android.os.Bundle
 import fr.niels.epicture.BaseActivity

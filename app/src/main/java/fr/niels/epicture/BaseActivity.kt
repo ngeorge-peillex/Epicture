@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kittinunf.fuel.core.FuelManager
 import fr.niels.epicture.model.AuthPayload
-import fr.niels.epicture.ui.HomeActivity
+import fr.niels.epicture.ui.activity.HomeActivity
 import fr.niels.epicture.ui.ProfileActivity
-import fr.niels.epicture.ui.UploadActivity
+import fr.niels.epicture.ui.activity.UploadActivity
 import kotlinx.android.synthetic.main.bottom_navigation_view.*
 
 abstract class BaseActivity(val navNumber: Int) : AppCompatActivity() {

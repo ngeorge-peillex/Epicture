@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout>
+
     <data>
+
         <variable
             name="user"
             type="fr.niels.epicture.viewModel.UserViewModel" />
@@ -13,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_login"
-        tools:context=".ui.auth.LoginActivity">
+        tools:context=".ui.activity.auth.LoginActivity">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_left"
@@ -47,31 +49,40 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="@{user.username}"
             android:textSize="30dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/profile_picture"/>
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture" />
+
+        <TextView
+            android:id="@+id/bio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{user.bio}"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture" />
 
         <TableLayout
             android:id="@+id/table"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name"
-            android:background="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            app:tabMode="fixed"
-            />
+            android:background="@color/colorWhite"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:tabMode="fixed" />
 
         <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/table"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/table" />
 
-        <include layout="@layout/bottom_navigation_view"/>
+        <include layout="@layout/bottom_navigation_view" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
