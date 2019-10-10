@@ -6,14 +6,12 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.util.Log
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.google.gson.Gson
-import org.json.JSONObject
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.Observable
+import java.util.*
 
 class Image : Observable() {
     var title: String = ""

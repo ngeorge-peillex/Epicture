@@ -3,7 +3,7 @@ package fr.niels.epicture.model
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.Observable
+import java.util.*
 
 class Gallery : Observable() {
     var images: MutableList<Image> = mutableListOf()

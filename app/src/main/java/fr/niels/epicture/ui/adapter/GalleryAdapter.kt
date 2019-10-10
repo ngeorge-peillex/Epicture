@@ -31,7 +31,6 @@ class GalleryAdapter(private val gallery: Gallery) : Observer,
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        Log.e("GalleryAdapter", gallery.images[0].link.toString())
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
         val galleryView = DataBindingUtil.inflate(
             layoutInflater,

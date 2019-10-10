@@ -4,9 +4,9 @@ import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
-import java.util.Observable
+import java.util.*
 
-class User: Observable() {
+class User : Observable() {
     @SerializedName("url")
     var username: String = ""
         set(value) {
@@ -26,8 +26,7 @@ class User: Observable() {
         this.apply { username = other.username; bio = other.bio ?: ""; }
     }
 
-    private fun setChangedAndNotify(field: Any)
-    {
+    private fun setChangedAndNotify(field: Any) {
         setChanged()
         notifyObservers(field)
     }

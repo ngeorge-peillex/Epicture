@@ -12,8 +12,7 @@ object AuthPayload {
 
     var username: String = ""
 
-    fun interceptor() = {
-            next: (Request) -> Request ->
+    fun interceptor() = { next: (Request) -> Request ->
         { req: Request ->
             req.header(mapOf("Authorization" to "Bearer ${this.token}"))
             next(req)

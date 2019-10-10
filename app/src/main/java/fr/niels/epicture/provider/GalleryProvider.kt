@@ -3,14 +3,9 @@ package fr.niels.epicture.provider
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.result.Result
-import com.google.gson.Gson
 import fr.niels.epicture.model.AuthPayload
 import fr.niels.epicture.model.Gallery
-import fr.niels.epicture.model.Image
-import fr.niels.epicture.model.User
 import fr.niels.epicture.utils.IMGUR_API_URL
-import org.json.JSONArray
-import org.json.JSONObject
 
 class GalleryProvider {
     private val tag = "ImageProvider"

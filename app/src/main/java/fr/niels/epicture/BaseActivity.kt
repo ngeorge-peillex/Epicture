@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kittinunf.fuel.core.FuelManager
 import fr.niels.epicture.model.AuthPayload
-import fr.niels.epicture.ui.activity.HomeActivity
 import fr.niels.epicture.ui.ProfileActivity
+import fr.niels.epicture.ui.activity.HomeActivity
 import fr.niels.epicture.ui.activity.UploadActivity
 import kotlinx.android.synthetic.main.bottom_navigation_view.*
 
@@ -22,7 +22,7 @@ abstract class BaseActivity(val navNumber: Int) : AppCompatActivity() {
     fun setupBottomNavigation() {
         bottom_navigation_view.setOnNavigationItemSelectedListener {
             val nextActivity =
-                when(it.itemId) {
+                when (it.itemId) {
 
                     R.id.nav_item_home -> HomeActivity::class.java
                     R.id.nav_item_upload -> UploadActivity::class.java

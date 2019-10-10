@@ -1,9 +1,9 @@
 package fr.niels.epicture.viewModel
 
-import fr.niels.epicture.model.User
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import fr.niels.epicture.BR
+import fr.niels.epicture.model.User
 import java.util.*
 
 class UserViewModel(private val user: User) : Observer, BaseObservable() {
