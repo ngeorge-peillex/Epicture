@@ -38,6 +38,16 @@ class ImageViewModel(private val image: Image) : Observer, BaseObservable() {
             return image.favorite
         }
 
+    val owner: String
+        @Bindable get() {
+            return image.owner
+        }
+
+    val description: String
+        @Bindable get() {
+            return image.description
+        }
+
     /// Notify the UI when change event emitting from Model is received.
     override fun update(p0: Observable?, p1: Any?) {
         if (p1 is String) {
@@ -55,6 +65,12 @@ class ImageViewModel(private val image: Image) : Observer, BaseObservable() {
             }
             if (p1 == "favorite") {
                 notifyPropertyChanged(BR.favorite)
+            }
+            if (p1 == "owner") {
+                notifyPropertyChanged(BR.owner)
+            }
+            if (p1 == "description") {
+                notifyPropertyChanged(BR.description)
             }
         }
     }

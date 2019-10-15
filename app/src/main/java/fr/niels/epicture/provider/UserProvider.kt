@@ -19,6 +19,8 @@ class UserProvider() {
                     is Result.Success -> {
                         val (userResult, _) = result
                         user.merge(userResult)
+                        Log.e("user bio", user.bio)
+
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")

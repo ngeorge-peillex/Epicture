@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -45,6 +46,19 @@ class Image : Observable() {
             setChangedAndNotify("favorite")
         }
 
+    @SerializedName("account_url")
+    var owner: String = ""
+        set(value) {
+            field = value
+            setChangedAndNotify("owner")
+        }
+
+    var description: String = ""
+        set(value) {
+            field = value
+            setChangedAndNotify("description")
+        }
+
     fun merge(other: Image?) {
         if (other == null)
             return
@@ -53,6 +67,8 @@ class Image : Observable() {
             type = other.type;
             link = other.link;
             favorite = other.favorite
+            owner = other.owner
+            description = other.description
         }
     }
 
@@ -63,7 +79,7 @@ class Image : Observable() {
 
     @Throws(IOException::class)
     private fun drawableFromUrl(url: String): Drawable {
-        val x: Bitmap
+        var x: Bitmap
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.connect()
         val input = connection.getInputStream()
