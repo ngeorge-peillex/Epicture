@@ -30,7 +30,6 @@ class HomeActivity : BaseActivity(0) {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
-
         }
     }
 

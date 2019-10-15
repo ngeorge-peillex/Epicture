@@ -2,6 +2,7 @@ package fr.niels.epicture.provider
 
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.result.Result
 import fr.niels.epicture.model.AuthPayload
 import fr.niels.epicture.model.Gallery
@@ -19,6 +20,21 @@ class GalleryProvider {
                     is Result.Success -> {
                         val (galleryResult, _) = result
                         gallery.merge(galleryResult)
+                    }
+                    is Result.Failure -> {
+                        Log.e(tag, "Invalid request: $result")
+                    }
+                }
+            }
+    }
+
+    fun upload(imageUri: String) {
+        Fuel.post(IMGUR_API_URL + "3/upload")
+            .jsonBody("{ image: \'${imageUri} }")
+            .response { _, _, result ->
+                when (result) {
+                    is Result.Success -> {
+                        get()
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")
