@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="image"
             type="fr.niels.epicture.viewModel.ImageViewModel" />
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="top">
+        android:gravity="clip_vertical">
 
         <ImageView
             style="@style/TextAppearance.AppCompat.Medium"
