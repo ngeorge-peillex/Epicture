@@ -28,8 +28,8 @@ class GalleryProvider {
             }
     }
 
-    fun getTrends() {
-        Fuel.get(IMGUR_API_URL + "3/gallery/r/memes")
+    fun getTrends(type: String) {
+        Fuel.get(IMGUR_API_URL + "3/gallery/r/" + type)
             .responseObject(Gallery.Deserializer()) { _, _, result ->
                 when (result) {
                     is Result.Success -> {
