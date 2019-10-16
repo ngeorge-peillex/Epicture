@@ -21,7 +21,7 @@ class HomeActivity : BaseActivity(0) {
         setupBottomNavigation()
 
         val galleryProvider = GalleryProvider()
-        galleryProvider.get()
+        galleryProvider.getTrends()
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = GalleryAdapter(galleryProvider.gallery)

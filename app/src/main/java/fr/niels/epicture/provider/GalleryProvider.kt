@@ -28,6 +28,21 @@ class GalleryProvider {
             }
     }
 
+    fun getTrends() {
+        Fuel.get(IMGUR_API_URL + "3/gallery/r/memes")
+            .responseObject(Gallery.Deserializer()) { _, _, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val (galleryResult, _) = result
+                        gallery.merge(galleryResult)
+                    }
+                    is Result.Failure -> {
+                        Log.e(tag, "Invalid request: $result")
+                    }
+                }
+            }
+    }
+
     fun upload(imageUri: String) {
         Fuel.post(IMGUR_API_URL + "3/upload")
             .jsonBody("{ image: \'${imageUri} }")
