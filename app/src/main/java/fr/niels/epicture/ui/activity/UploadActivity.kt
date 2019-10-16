@@ -5,9 +5,14 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import fr.niels.epicture.BaseActivity
 import fr.niels.epicture.provider.GalleryProvider
+import fr.niels.epicture.ui.ProfileActivity
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
+
 
 class UploadActivity : BaseActivity(1) {
 
@@ -48,14 +53,21 @@ class UploadActivity : BaseActivity(1) {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            GalleryProvider().upload(data?.data.toString())
+            val stream: InputStream = contentResolver.openInputStream(data?.data!!)!!
+            GalleryProvider().upload(stream)
+
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun pickImageFromGallery() {
-        //Intent to pick image
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(
+            Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI
+        )
         intent.type = "image/*"
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }

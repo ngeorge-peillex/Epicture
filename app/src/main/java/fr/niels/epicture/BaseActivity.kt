@@ -16,7 +16,6 @@ abstract class BaseActivity(val navNumber: Int) : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         FuelManager.instance.addRequestInterceptor(AuthPayload.interceptor())
-
     }
 
     fun setupBottomNavigation() {

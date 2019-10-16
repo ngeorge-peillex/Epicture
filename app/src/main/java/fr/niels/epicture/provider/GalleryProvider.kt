@@ -2,14 +2,15 @@ package fr.niels.epicture.provider
 
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.extensions.jsonBody
+import com.github.kittinunf.fuel.core.BlobDataPart
 import com.github.kittinunf.result.Result
 import fr.niels.epicture.model.AuthPayload
 import fr.niels.epicture.model.Gallery
 import fr.niels.epicture.utils.IMGUR_API_URL
+import java.io.InputStream
 
 class GalleryProvider {
-    private val tag = "ImageProvider"
+    private val tag = "GalleryProvider"
 
     var gallery = Gallery()
 
@@ -43,10 +44,12 @@ class GalleryProvider {
             }
     }
 
-    fun upload(imageUri: String) {
-        Fuel.post(IMGUR_API_URL + "3/upload")
-            .jsonBody("{ image: \'${imageUri} }")
-            .response { _, _, result ->
+    fun upload(imageUri: InputStream) {
+        Fuel.upload(IMGUR_API_URL + "3/image")
+            .add(
+                BlobDataPart(imageUri, name = "image")
+            )
+            .response { result ->
                 when (result) {
                     is Result.Success -> {
                         get()
