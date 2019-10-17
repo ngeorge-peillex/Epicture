@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
@@ -59,6 +60,13 @@ class Image : Observable() {
             setChangedAndNotify("description")
         }
 
+    @SerializedName("animated")
+    var animated: Boolean = false
+        set(value) {
+            field = value
+            setChangedAndNotify("animated")
+        }
+
     fun merge(other: Image?) {
         if (other == null)
             return
@@ -83,6 +91,7 @@ class Image : Observable() {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.connect()
         val input = connection.getInputStream()
+        Log.e("drawableLogger", "here : $input")
         x = BitmapFactory.decodeStream(input)
         return BitmapDrawable(Resources.getSystem(), x)
     }
@@ -90,7 +99,11 @@ class Image : Observable() {
     class Deserializer : ResponseDeserializable<Image> {
         override fun deserialize(content: String): Image? {
             val image: Image = Gson().fromJson(content, Image::class.java)
-            image.content = image.drawableFromUrl(image.link)
+            if (!image.animated) {
+                image.content = image.drawableFromUrl(image.link)
+            } else {
+                return null
+            }
             return image
         }
     }

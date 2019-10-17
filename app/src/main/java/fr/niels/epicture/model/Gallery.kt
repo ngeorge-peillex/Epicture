@@ -1,5 +1,6 @@
 package fr.niels.epicture.model
 
+import android.util.Log
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import org.json.JSONArray
 import org.json.JSONObject
@@ -30,8 +31,14 @@ class Gallery : Observable() {
             var gallery = Gallery()
             val data: JSONArray = JSONObject(content).getJSONArray("data")
 
+            Log.e("debugGallery", "images len : ${data.length()}")
             for (i in 0 until (data.length())) {
-                gallery.images.add(Image.Deserializer().deserialize(data.get(i).toString())!!)
+                Log.e("debugGallery", "image parsed")
+                val tmp = Image.Deserializer().deserialize(data.get(i).toString())
+                if (tmp != null) {
+                    Log.e("debugGallery", "image pushed")
+                    gallery.images.add(tmp)
+                }
             }
             return gallery
         }

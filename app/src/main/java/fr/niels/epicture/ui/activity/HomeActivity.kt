@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.niels.epicture.BaseActivity
 import fr.niels.epicture.R
+import fr.niels.epicture.model.AuthPayload
 import fr.niels.epicture.provider.GalleryProvider
 import fr.niels.epicture.ui.adapter.GalleryAdapter
 import kotlinx.android.synthetic.main.activity_home.*
@@ -97,7 +98,7 @@ class HomeActivity : BaseActivity(0) {
 
     private fun buildRecyclerView() {
         val galleryProvider = GalleryProvider()
-        galleryProvider.getTrends("memes")
+        galleryProvider.getTrends("day")
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = GalleryAdapter(galleryProvider.gallery)

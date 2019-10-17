@@ -30,6 +30,36 @@ class GalleryProvider {
     }
 
     fun getTrends(type: String) {
+        Fuel.get(IMGUR_API_URL + "3/gallery/hot/top/" + type)
+            .responseObject(Gallery.Deserializer()) { _, _, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val (galleryResult, _) = result
+                        gallery.merge(galleryResult)
+                    }
+                    is Result.Failure -> {
+                        Log.e(tag, "Invalid request: $result")
+                    }
+                }
+            }
+    }
+
+    fun getSearch(type: String) {
+        Fuel.get(IMGUR_API_URL + "3/gallery/r/" + type)
+            .responseObject(Gallery.Deserializer()) { _, _, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val (galleryResult, _) = result
+                        gallery.merge(galleryResult)
+                    }
+                    is Result.Failure -> {
+                        Log.e(tag, "Invalid request: $result")
+                    }
+                }
+            }
+    }
+
+    fun getFilter(type: String) {
         Fuel.get(IMGUR_API_URL + "3/gallery/r/" + type)
             .responseObject(Gallery.Deserializer()) { _, _, result ->
                 when (result) {

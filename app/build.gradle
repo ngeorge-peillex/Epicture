@@ -47,4 +47,7 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel-android:2.2.1'
     kapt 'com.android.databinding:compiler:3.1.4'
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation 'com.android.support:appcompat-v7:+'
+
 }
