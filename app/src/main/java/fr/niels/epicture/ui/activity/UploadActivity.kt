@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.widget.Toast
 import fr.niels.epicture.BaseActivity
 import fr.niels.epicture.provider.GalleryProvider
+import fr.niels.epicture.provider.ImageProvider
 import fr.niels.epicture.ui.ProfileActivity
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -57,7 +58,7 @@ class UploadActivity : BaseActivity(1) {
 
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             val stream: InputStream = contentResolver.openInputStream(data?.data!!)!!
-            GalleryProvider().upload(stream)
+            ImageProvider().upload(stream)
 
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)

@@ -29,8 +29,8 @@ class GalleryProvider {
             }
     }
 
-    fun getTrends(type: String) {
-        Fuel.get(IMGUR_API_URL + "3/gallery/hot/top/" + type)
+    fun getTrends(period: String) {
+        Fuel.get(IMGUR_API_URL + "3/gallery/hot/top/0/" + period)
             .responseObject(Gallery.Deserializer()) { _, _, result ->
                 when (result) {
                     is Result.Success -> {
@@ -44,45 +44,13 @@ class GalleryProvider {
             }
     }
 
-    fun getSearch(type: String) {
-        Fuel.get(IMGUR_API_URL + "3/gallery/r/" + type)
+    fun searchGallery(period: String, search: String) {
+        Fuel.get(IMGUR_API_URL + "3/gallery/search/top/$period/0?q=$search")
             .responseObject(Gallery.Deserializer()) { _, _, result ->
                 when (result) {
                     is Result.Success -> {
                         val (galleryResult, _) = result
                         gallery.merge(galleryResult)
-                    }
-                    is Result.Failure -> {
-                        Log.e(tag, "Invalid request: $result")
-                    }
-                }
-            }
-    }
-
-    fun getFilter(type: String) {
-        Fuel.get(IMGUR_API_URL + "3/gallery/r/" + type)
-            .responseObject(Gallery.Deserializer()) { _, _, result ->
-                when (result) {
-                    is Result.Success -> {
-                        val (galleryResult, _) = result
-                        gallery.merge(galleryResult)
-                    }
-                    is Result.Failure -> {
-                        Log.e(tag, "Invalid request: $result")
-                    }
-                }
-            }
-    }
-
-    fun upload(imageUri: InputStream) {
-        Fuel.upload(IMGUR_API_URL + "3/image")
-            .add(
-                BlobDataPart(imageUri, name = "image")
-            )
-            .response { result ->
-                when (result) {
-                    is Result.Success -> {
-                        get()
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")

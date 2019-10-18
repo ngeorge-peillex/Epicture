@@ -16,6 +16,8 @@ import java.net.URL
 import java.util.*
 
 class Image : Observable() {
+    var id: String = ""
+
     var title: String = ""
         set(value) {
             field = value
@@ -31,7 +33,6 @@ class Image : Observable() {
     var link: String = ""
         set(value) {
             field = value
-            setChangedAndNotify("link")
             content = drawableFromUrl(value)
         }
 
@@ -54,12 +55,6 @@ class Image : Observable() {
             setChangedAndNotify("owner")
         }
 
-    var description: String = ""
-        set(value) {
-            field = value
-            setChangedAndNotify("description")
-        }
-
     @SerializedName("animated")
     var animated: Boolean = false
         set(value) {
@@ -76,7 +71,6 @@ class Image : Observable() {
             link = other.link;
             favorite = other.favorite
             owner = other.owner
-            description = other.description
         }
     }
 
@@ -91,7 +85,6 @@ class Image : Observable() {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.connect()
         val input = connection.getInputStream()
-        Log.e("drawableLogger", "here : $input")
         x = BitmapFactory.decodeStream(input)
         return BitmapDrawable(Resources.getSystem(), x)
     }

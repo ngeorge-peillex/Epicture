@@ -23,6 +23,14 @@
             android:adjustViewBounds="true"
             android:src="@{image.content}" />
 
+        <ImageView
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:onClick="@{() -> image.switchFavorite()}"
+            android:src="@{image.favorite ? @drawable/ic_favorite : @drawable/ic_favorite_border}" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:text="@{image.description}"
+                android:text="@{image.title}"
                 android:textSize="15dp"
                 app:layout_constraintStart_toStartOf="@+id/imageOwner" />
 

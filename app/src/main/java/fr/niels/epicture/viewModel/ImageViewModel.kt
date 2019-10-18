@@ -5,6 +5,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import fr.niels.epicture.BR
 import fr.niels.epicture.model.Image
+import fr.niels.epicture.provider.ImageProvider
 import java.util.*
 
 class ImageViewModel(private val image: Image) : Observer, BaseObservable() {
@@ -23,11 +24,6 @@ class ImageViewModel(private val image: Image) : Observer, BaseObservable() {
             return image.type
         }
 
-    val link: String
-        @Bindable get() {
-            return image.link
-        }
-
     val content: Drawable
         @Bindable get() {
             return image.content
@@ -43,10 +39,10 @@ class ImageViewModel(private val image: Image) : Observer, BaseObservable() {
             return image.owner
         }
 
-    val description: String
-        @Bindable get() {
-            return image.description
-        }
+    fun switchFavorite() {
+        image.favorite = !image.favorite
+        ImageProvider().favorite(image.id)
+    }
 
     /// Notify the UI when change event emitting from Model is received.
     override fun update(p0: Observable?, p1: Any?) {
@@ -57,9 +53,6 @@ class ImageViewModel(private val image: Image) : Observer, BaseObservable() {
             if (p1 == "type") {
                 notifyPropertyChanged(BR.type)
             }
-            if (p1 == "link") {
-                notifyPropertyChanged(BR.link)
-            }
             if (p1 == "content") {
                 notifyPropertyChanged(BR.content)
             }
@@ -68,9 +61,6 @@ class ImageViewModel(private val image: Image) : Observer, BaseObservable() {
             }
             if (p1 == "owner") {
                 notifyPropertyChanged(BR.owner)
-            }
-            if (p1 == "description") {
-                notifyPropertyChanged(BR.description)
             }
         }
     }
