@@ -9,7 +9,11 @@ import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -55,13 +59,6 @@ class Image : Observable() {
             setChangedAndNotify("owner")
         }
 
-    @SerializedName("animated")
-    var animated: Boolean = false
-        set(value) {
-            field = value
-            setChangedAndNotify("animated")
-        }
-
     fun merge(other: Image?) {
         if (other == null)
             return
@@ -81,23 +78,39 @@ class Image : Observable() {
 
     @Throws(IOException::class)
     private fun drawableFromUrl(url: String): Drawable {
-        var x: Bitmap
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.connect()
         val input = connection.getInputStream()
-        x = BitmapFactory.decodeStream(input)
+        var x: Bitmap = BitmapFactory.decodeStream(input)
         return BitmapDrawable(Resources.getSystem(), x)
     }
 
     class Deserializer : ResponseDeserializable<Image> {
         override fun deserialize(content: String): Image? {
-            val image: Image = Gson().fromJson(content, Image::class.java)
-            if (!image.animated) {
-                image.content = image.drawableFromUrl(image.link)
-            } else {
+            val imageLink: String = getImageLink(content)
+            if (imageLink.isEmpty())
                 return null
-            }
+
+            val image: Image = Gson().fromJson(content, Image::class.java)
+            image.link = imageLink
+            image.content = image.drawableFromUrl(image.link)
             return image
+        }
+
+        private fun getImageLink(content: String): String {
+            if (!JSONObject(content).has("images")) {
+                return JSONObject(content).getString("link")
+            }
+
+            val images: JSONArray = JSONObject(content).getJSONArray("images")
+            if (images.length() > 1)
+                return ""
+
+            val type: String = images.getJSONObject(0).getString("type")
+            if (!type.startsWith("image/") || type == "image/gif")
+                return ""
+
+            return images.getJSONObject(0).getString("link")
         }
     }
 }

@@ -31,14 +31,10 @@ class Gallery : Observable() {
             var gallery = Gallery()
             val data: JSONArray = JSONObject(content).getJSONArray("data")
 
-            Log.e("debugGallery", "images len : ${data.length()}")
             for (i in 0 until (data.length())) {
-                Log.e("debugGallery", "image parsed")
-                val tmp = Image.Deserializer().deserialize(data.get(i).toString())
-                if (tmp != null) {
-                    Log.e("debugGallery", "image pushed")
-                    gallery.images.add(tmp)
-                }
+                val image: Image? = Image.Deserializer().deserialize(data.get(i).toString())
+                if (image != null)
+                    gallery.images.add(image)
             }
             return gallery
         }
