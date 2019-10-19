@@ -9,8 +9,6 @@ import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import org.json.JSONArray
 import org.json.JSONObject
@@ -80,7 +78,7 @@ class Image : Observable() {
     private fun drawableFromUrl(url: String): Drawable {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.connect()
-        val input = connection.getInputStream()
+        val input = connection.inputStream
         var x: Bitmap = BitmapFactory.decodeStream(input)
         return BitmapDrawable(Resources.getSystem(), x)
     }
@@ -99,18 +97,29 @@ class Image : Observable() {
 
         private fun getImageLink(content: String): String {
             if (!JSONObject(content).has("images")) {
+                if (!isValidType(JSONObject(content)))
+                    return ""
                 return JSONObject(content).getString("link")
             }
 
             val images: JSONArray = JSONObject(content).getJSONArray("images")
-            if (images.length() > 1)
+            if (images.length() != 1)
                 return ""
 
-            val type: String = images.getJSONObject(0).getString("type")
-            if (!type.startsWith("image/") || type == "image/gif")
+            val firstImage = images.getJSONObject(0)
+            if (!isValidType(firstImage))
                 return ""
 
-            return images.getJSONObject(0).getString("link")
+            return firstImage.getString("link")
+        }
+
+        private fun isValidType(image: JSONObject): Boolean {
+            val type: String = image.getString("type")
+
+            return type.startsWith("image/") &&
+                    type != "image/gif" &&
+                    !image.getBoolean("animated") &&
+                    !image.getBoolean("has_sound")
         }
     }
 }

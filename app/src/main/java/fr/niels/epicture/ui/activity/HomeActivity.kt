@@ -1,11 +1,9 @@
 package fr.niels.epicture.ui.activity
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -13,16 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.niels.epicture.BaseActivity
 import fr.niels.epicture.R
-import fr.niels.epicture.model.AuthPayload
 import fr.niels.epicture.provider.GalleryProvider
 import fr.niels.epicture.ui.adapter.GalleryAdapter
+
 
 class HomeActivity : BaseActivity(0) {
     private val tag = "HomeActivity"
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
 
     private val galleryProvider = GalleryProvider()
 
@@ -102,14 +98,27 @@ class HomeActivity : BaseActivity(0) {
     private fun buildRecyclerView() {
         galleryProvider.getTrends(filters[filterIndex])
 
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = GalleryAdapter(galleryProvider.gallery)
+        val viewManager = LinearLayoutManager(this)
+        val viewAdapter = GalleryAdapter(galleryProvider.gallery)
 
         recyclerView = findViewById<RecyclerView>(R.id.gallery).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount = viewManager.getChildCount()
+                val totalItemCount = viewManager.getItemCount()
+                val firstVisibleItemPosition = viewManager.findFirstVisibleItemPosition()
+
+                Log.e(tag, "Visible item count: $visibleItemCount")
+                Log.e(tag, "Total item count: $totalItemCount")
+                Log.e(tag, "First visible item position: $firstVisibleItemPosition")
+            }
+        })
     }
 
 }

@@ -14,13 +14,15 @@ class GalleryProvider {
 
     var gallery = Gallery()
 
-    fun get() {
-        Fuel.get(IMGUR_API_URL + "3/account/${AuthPayload.username}/images/0")
+    var page: Int = 0
+
+    fun get(nextPage: Boolean = false) {
+        page = if (nextPage) page + 1 else 0
+        Fuel.get(IMGUR_API_URL + "3/account/${AuthPayload.username}/images/$page")
             .responseObject(Gallery.Deserializer()) { _, _, result ->
                 when (result) {
                     is Result.Success -> {
-                        val (galleryResult, _) = result
-                        gallery.merge(galleryResult)
+                        mergeGalleryResult(result.component1())
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")
@@ -29,13 +31,13 @@ class GalleryProvider {
             }
     }
 
-    fun getTrends(period: String) {
-        Fuel.get(IMGUR_API_URL + "3/gallery/hot/top/0/" + period)
+    fun getTrends(period: String, nextPage: Boolean = false) {
+        page = if (nextPage) page + 1 else 0
+        Fuel.get(IMGUR_API_URL + "3/gallery/hot/top/$page/" + period)
             .responseObject(Gallery.Deserializer()) { _, _, result ->
                 when (result) {
                     is Result.Success -> {
-                        val (galleryResult, _) = result
-                        gallery.merge(galleryResult)
+                        mergeGalleryResult(result.component1())
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")
@@ -44,18 +46,30 @@ class GalleryProvider {
             }
     }
 
-    fun searchGallery(period: String, search: String) {
-        Fuel.get(IMGUR_API_URL + "3/gallery/search/top/$period/0?q=$search")
+    fun searchGallery(period: String, search: String, nextPage: Boolean = false) {
+        page = if (nextPage) page + 1 else 0
+        Fuel.get(IMGUR_API_URL + "3/gallery/search/top/$period/$page?q=$search")
             .responseObject(Gallery.Deserializer()) { _, _, result ->
                 when (result) {
                     is Result.Success -> {
-                        val (galleryResult, _) = result
-                        gallery.merge(galleryResult)
+                        mergeGalleryResult(result.component1())
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")
                     }
                 }
             }
+    }
+
+    private fun mergeGalleryResult(galleryResult: Gallery?) {
+        if (galleryResult == null)
+            return
+
+        if (page == 0) {
+            gallery.merge(galleryResult)
+        } else {
+            gallery.images.addAll(galleryResult.images)
+            gallery.setChangedAndNotify("images")
+        }
     }
 }

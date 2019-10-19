@@ -21,7 +21,7 @@ class Gallery : Observable() {
         }
     }
 
-    private fun setChangedAndNotify(field: Any) {
+    fun setChangedAndNotify(field: Any) {
         setChanged()
         notifyObservers(field)
     }
