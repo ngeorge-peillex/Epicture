@@ -3,7 +3,6 @@ package fr.niels.epicture.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +15,8 @@ import java.util.*
 
 class GalleryAdapter(private val gallery: Gallery) : Observer,
     RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
+
+    var lastDisplayedPageItemCount: Int = 0
 
     init {
         gallery.addObserver(this)
@@ -39,6 +40,7 @@ class GalleryAdapter(private val gallery: Gallery) : Observer,
             parent,
             false
         ) as ViewDataBinding
+        lastDisplayedPageItemCount = gallery.images.size
         return ViewHolder(galleryView)
     }
 
@@ -49,6 +51,12 @@ class GalleryAdapter(private val gallery: Gallery) : Observer,
     override fun getItemCount() = gallery.images.size
 
     override fun update(p0: Observable?, p1: Any?) {
-        notifyDataSetChanged()
+        if (p1 == "images") {
+            notifyDataSetChanged()
+        }
+        if (p1.toString().startsWith("images+")) {
+            val itemAddedCount: Int = p1.toString().substringAfter('+').toInt()
+            notifyItemRangeChanged(lastDisplayedPageItemCount - 1, itemAddedCount)
+        }
     }
 }

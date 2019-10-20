@@ -16,7 +16,10 @@ class GalleryProvider {
 
     var page: Int = 0
 
+    var isInAsyncTask: Boolean = false
+
     fun get(nextPage: Boolean = false) {
+        isInAsyncTask = true
         page = if (nextPage) page + 1 else 0
         Fuel.get(IMGUR_API_URL + "3/account/${AuthPayload.username}/images/$page")
             .responseObject(Gallery.Deserializer()) { _, _, result ->
@@ -26,12 +29,14 @@ class GalleryProvider {
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")
+                        isInAsyncTask = false
                     }
                 }
             }
     }
 
     fun getTrends(period: String, nextPage: Boolean = false) {
+        isInAsyncTask = true
         page = if (nextPage) page + 1 else 0
         Fuel.get(IMGUR_API_URL + "3/gallery/hot/top/$page/" + period)
             .responseObject(Gallery.Deserializer()) { _, _, result ->
@@ -41,12 +46,14 @@ class GalleryProvider {
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")
+                        isInAsyncTask = false
                     }
                 }
             }
     }
 
     fun searchGallery(period: String, search: String, nextPage: Boolean = false) {
+        isInAsyncTask = true
         page = if (nextPage) page + 1 else 0
         Fuel.get(IMGUR_API_URL + "3/gallery/search/top/$period/$page?q=$search")
             .responseObject(Gallery.Deserializer()) { _, _, result ->
@@ -56,6 +63,7 @@ class GalleryProvider {
                     }
                     is Result.Failure -> {
                         Log.e(tag, "Invalid request: $result")
+                        isInAsyncTask = false
                     }
                 }
             }
@@ -69,7 +77,8 @@ class GalleryProvider {
             gallery.merge(galleryResult)
         } else {
             gallery.images.addAll(galleryResult.images)
-            gallery.setChangedAndNotify("images")
+            gallery.setChangedAndNotify("images+${galleryResult.images.size}")
         }
+        isInAsyncTask = false
     }
 }

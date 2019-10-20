@@ -34,8 +34,7 @@ class HomeActivity : BaseActivity(0) {
             }
         }
 
-    var onSearch: Boolean = false
-    var searchText: String = ""
+    var searchQuery: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +68,8 @@ class HomeActivity : BaseActivity(0) {
             override fun onClick(view: View) {
                 filterIndex -= 1
                 filterTextField.text = filters[filterIndex]
-                if (onSearch)
-                    galleryProvider.searchGallery(filters[filterIndex], searchText)
+                if (searchQuery.isNotEmpty())
+                    galleryProvider.searchGallery(filters[filterIndex], searchQuery)
                 else
                     galleryProvider.getTrends(filters[filterIndex])
             }
@@ -80,8 +79,8 @@ class HomeActivity : BaseActivity(0) {
             override fun onClick(view: View) {
                 filterIndex += 1
                 filterTextField.text = filters[filterIndex]
-                if (onSearch)
-                    galleryProvider.searchGallery(filters[filterIndex], searchText)
+                if (searchQuery.isNotEmpty())
+                    galleryProvider.searchGallery(filters[filterIndex], searchQuery)
                 else
                     galleryProvider.getTrends(filters[filterIndex])
             }
@@ -95,13 +94,11 @@ class HomeActivity : BaseActivity(0) {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.isNotEmpty()) {
-                    searchText = query
-                    galleryProvider.searchGallery(filters[filterIndex], query)
-                    onSearch = true
-                }
-                else {
+                    searchQuery = query
+                    galleryProvider.searchGallery(filters[filterIndex], searchQuery)
+                } else {
                     galleryProvider.getTrends(filters[filterIndex])
-                    onSearch = false
+                    searchQuery = ""
                 }
                 return false
             }
@@ -109,10 +106,8 @@ class HomeActivity : BaseActivity(0) {
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty()) {
                     galleryProvider.getTrends(filters[filterIndex])
-                    onSearch = false
+                    searchQuery = ""
                 }
-
-                //galleryProvider.searchGallery(filters[filterIndex], newText)
                 return false
             }
         })
@@ -137,9 +132,20 @@ class HomeActivity : BaseActivity(0) {
                 val totalItemCount = viewManager.getItemCount()
                 val firstVisibleItemPosition = viewManager.findFirstVisibleItemPosition()
 
-                Log.e(tag, "Visible item count: $visibleItemCount")
-                Log.e(tag, "Total item count: $totalItemCount")
-                Log.e(tag, "First visible item position: $firstVisibleItemPosition")
+                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount - 10
+                    && firstVisibleItemPosition >= 0
+                    && !galleryProvider.isInAsyncTask
+                ) {
+                    if (searchQuery.isNotEmpty()) {
+                        galleryProvider.searchGallery(
+                            filters[filterIndex],
+                            searchQuery,
+                            nextPage = true
+                        )
+                    } else {
+                        galleryProvider.getTrends(filters[filterIndex], nextPage = true)
+                    }
+                }
             }
         })
     }
