@@ -1,7 +1,6 @@
 package fr.niels.epicture.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.SearchView
@@ -128,8 +127,8 @@ class HomeActivity : BaseActivity(0) {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val visibleItemCount = viewManager.getChildCount()
-                val totalItemCount = viewManager.getItemCount()
+                val visibleItemCount = viewManager.childCount
+                val totalItemCount = viewManager.itemCount
                 val firstVisibleItemPosition = viewManager.findFirstVisibleItemPosition()
 
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount - 10

@@ -8,10 +8,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import fr.niels.epicture.BaseActivity
-import fr.niels.epicture.provider.GalleryProvider
 import fr.niels.epicture.provider.ImageProvider
 import fr.niels.epicture.ui.ProfileActivity
-import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 

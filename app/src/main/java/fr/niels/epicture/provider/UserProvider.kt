@@ -7,7 +7,7 @@ import fr.niels.epicture.model.AuthPayload
 import fr.niels.epicture.model.User
 import fr.niels.epicture.utils.IMGUR_API_URL
 
-class UserProvider() {
+class UserProvider {
     private val tag = "UserProvider"
 
     val user = User()

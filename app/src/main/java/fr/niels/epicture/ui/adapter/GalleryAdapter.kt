@@ -1,6 +1,5 @@
 package fr.niels.epicture.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil

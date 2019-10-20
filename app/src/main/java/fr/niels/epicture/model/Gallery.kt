@@ -1,6 +1,5 @@
 package fr.niels.epicture.model
 
-import android.util.Log
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import org.json.JSONArray
 import org.json.JSONObject

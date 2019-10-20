@@ -60,9 +60,9 @@ class Image : Observable() {
         if (other == null)
             return
         this.apply {
-            title = other.title;
-            type = other.type;
-            link = other.link;
+            title = other.title
+            type = other.type
+            link = other.link
             favorite = other.favorite
             owner = other.owner
         }
@@ -73,50 +73,13 @@ class Image : Observable() {
         notifyObservers(field)
     }
 
-    private fun calculateInSampleSize(
-        options: BitmapFactory.Options,
-        reqWidth: Int,
-        reqHeight: Int
-    ): Int {
-        // Raw height and width of image
-        val (height: Int, width: Int) = options.run { outHeight to outWidth }
-        var inSampleSize = 1
-
-        if (height > reqHeight || width > reqWidth) {
-
-            val halfHeight: Int = height / 2
-            val halfWidth: Int = width / 2
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
-                inSampleSize *= 2
-            }
-        }
-
-        return inSampleSize
-    }
-
     @Throws(IOException::class)
     private fun drawableFromUrl(url: String): Drawable {
-        val connection1 = URL(url).openConnection() as HttpURLConnection
-        connection1.connect()
-        val input1 = connection1.inputStream
+        val connection = URL(url).openConnection() as HttpURLConnection
+        connection.connect()
+        val input = connection.inputStream
 
-        val connection2 = URL(url).openConnection() as HttpURLConnection
-        connection2.connect()
-        val input2 = connection2.inputStream
-
-        var x: Bitmap = BitmapFactory.Options().run {
-            inJustDecodeBounds = true
-            BitmapFactory.decodeStream(input1, null, this)
-
-            inSampleSize = calculateInSampleSize(this, 150, 150)
-
-            inJustDecodeBounds = false
-
-            BitmapFactory.decodeStream(input2, null, this)!!
-        }
+        var x: Bitmap = BitmapFactory.decodeStream(input)
 
         return BitmapDrawable(Resources.getSystem(), x)
     }
