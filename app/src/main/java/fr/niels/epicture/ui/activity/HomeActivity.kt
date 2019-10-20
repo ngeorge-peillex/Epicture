@@ -34,6 +34,9 @@ class HomeActivity : BaseActivity(0) {
             }
         }
 
+    var onSearch: Boolean = false
+    var searchText: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,7 +69,10 @@ class HomeActivity : BaseActivity(0) {
             override fun onClick(view: View) {
                 filterIndex -= 1
                 filterTextField.text = filters[filterIndex]
-                galleryProvider.getTrends(filters[filterIndex])
+                if (onSearch)
+                    galleryProvider.searchGallery(filters[filterIndex], searchText)
+                else
+                    galleryProvider.getTrends(filters[filterIndex])
             }
         })
 
@@ -74,7 +80,10 @@ class HomeActivity : BaseActivity(0) {
             override fun onClick(view: View) {
                 filterIndex += 1
                 filterTextField.text = filters[filterIndex]
-                galleryProvider.getTrends(filters[filterIndex])
+                if (onSearch)
+                    galleryProvider.searchGallery(filters[filterIndex], searchText)
+                else
+                    galleryProvider.getTrends(filters[filterIndex])
             }
         })
     }
@@ -84,12 +93,26 @@ class HomeActivity : BaseActivity(0) {
         searchView.queryHint = "Search Images"
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query.isNotEmpty()) {
+                    searchText = query
+                    galleryProvider.searchGallery(filters[filterIndex], query)
+                    onSearch = true
+                }
+                else {
+                    galleryProvider.getTrends(filters[filterIndex])
+                    onSearch = false
+                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                galleryProvider.getTrends(filters[filterIndex])
+                if (newText.isEmpty()) {
+                    galleryProvider.getTrends(filters[filterIndex])
+                    onSearch = false
+                }
+
+                //galleryProvider.searchGallery(filters[filterIndex], newText)
                 return false
             }
         })
